@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	// register	route and handler
+	// register	route and handlers
 	http.HandleFunc("/sayhello", sayhello)
 	log.Println("app is running in localhost:8080")
 	_ = http.ListenAndServe(":8080", nil)
