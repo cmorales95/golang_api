@@ -2,6 +2,7 @@ package storage
 
 import (
 	"fmt"
+
 	"github.com/cmorales95/golang_api/crud/models"
 )
 
@@ -62,7 +63,7 @@ func (m *Memory) GetByID(ID int) (models.Person, error) {
 }
 
 func (m *Memory) GetAll() (models.Persons, error) {
-	var result models.Persons
+	result := models.Persons{}
 	for _, v := range m.Persons {
 		result = append(result, v)
 	}
