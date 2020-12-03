@@ -71,7 +71,7 @@ func (p *person) Update(w http.ResponseWriter, r *http.Request) {
 		responseJSON(w, http.StatusInternalServerError, response)
 		return
 	}
-	response := newResponse(Error, "error, person updated successfully", data)
+	response := newResponse(Message, "person updated successfully", data)
 	responseJSON(w, http.StatusInternalServerError, response)
 }
 
