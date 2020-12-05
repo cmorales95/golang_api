@@ -17,7 +17,25 @@ func Log(f HandlerSign) HandlerSign {
 	}
 }
 
-//TimeTrack verify the time
+// Auth validation
+func Auth(f HandlerSign) HandlerSign {
+	return func(w http.ResponseWriter, r *http.Request) {
+		token := r.Header.Get("Authorization")
+		if token != "token-is-secure" {
+			forbidden(w, r)
+			return
+		}
+		f(w, r)
+	}
+}
+
+func forbidden(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusForbidden)
+	w.Write([]byte("No Authorization"))
+}
+
+// TimeTrack verify the time
 func TimeTrack(start time.Time, name string) {
 	elapsed := time.Since(start)
 	log.Printf("%q execution time: %s", name, elapsed)
