@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"github.com/cmorales95/golang_api/crud/authorization"
 	"log"
 	"net/http"
 	"time"
@@ -21,7 +22,9 @@ func Log(f HandlerSign) HandlerSign {
 func Auth(f HandlerSign) HandlerSign {
 	return func(w http.ResponseWriter, r *http.Request) {
 		token := r.Header.Get("Authorization")
-		if token != "token-is-secure" {
+		// Validation Token
+		_, err := authorization.ValidateToken(token)
+		if err != nil {
 			forbidden(w, r)
 			return
 		}

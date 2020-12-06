@@ -12,3 +12,9 @@ func RoutePerson(mux *http.ServeMux, store Storage) {
 	mux.HandleFunc("/v1/persons/update", m.Log(h.Update))
 	mux.HandleFunc("/v1/persons/delete",m.Log(h.delete))
 }
+
+func RouteLogin(mux *http.ServeMux, storage Storage) {
+	h := newLogin(storage)
+
+	mux.HandleFunc("/v1/login", h.login)
+}
