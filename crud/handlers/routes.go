@@ -2,19 +2,20 @@ package handlers
 
 import (
 	m "github.com/cmorales95/golang_api/crud/middlewares"
-	"net/http"
+	"github.com/labstack/echo/v4"
 )
 
-func RoutePerson(mux *http.ServeMux, store Storage) {
+func RoutePerson(e *echo.Echo, store Storage) {
 	h := newPerson(store)
-	mux.HandleFunc("/v1/persons/create", m.Log(m.Auth(h.create)))
-	mux.HandleFunc("/v1/persons/get-all", m.Log(h.getAll))
-	mux.HandleFunc("/v1/persons/update", m.Log(h.Update))
-	mux.HandleFunc("/v1/persons/delete",m.Log(h.delete))
+	person := e.Group("/v1/persons")
+	person.Use(m.Auth)
+	person.POST("", h.create)
+	//mux.HandleFunc("/v1/persons/get-all", m.Log(h.getAll))
+	//mux.HandleFunc("/v1/persons/update", m.Log(h.Update))
+	//mux.HandleFunc("/v1/persons/delete",m.Log(h.delete))
 }
 
-func RouteLogin(mux *http.ServeMux, storage Storage) {
+func RouteLogin(e *echo.Echo, storage Storage) {
 	h := newLogin(storage)
-
-	mux.HandleFunc("/v1/login", h.login)
+	e.POST("/v1/login", h.login)
 }

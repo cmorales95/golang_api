@@ -4,8 +4,8 @@ import (
 	"github.com/cmorales95/golang_api/crud/authorization"
 	"github.com/cmorales95/golang_api/crud/handlers"
 	"github.com/cmorales95/golang_api/crud/storage"
+	"github.com/labstack/echo/v4"
 	"log"
-	"net/http"
 )
 
 func main() {
@@ -17,12 +17,13 @@ func main() {
 
 	// register routes
 	storage := storage.NewMemory()
-	mux := http.NewServeMux()
-	handlers.RoutePerson(mux, storage)
-	handlers.RouteLogin(mux, storage)
 
+	e := echo.New()
+	handlers.RoutePerson(e, storage)
+	handlers.RouteLogin(e, storage)
 	log.Println("application is running on port 8080")
-	if err := http.ListenAndServe(":8080", mux); err != nil {
+	err = e.Start(":8080")
+	if err != nil {
 		log.Fatal(err)
 	}
 
